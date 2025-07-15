@@ -1,20 +1,36 @@
+/* ... your existing CSS ... */
 * {
   box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  touch-action: manipulation;
 }
 
 body {
   font-family: 'Segoe UI', sans-serif;
   margin: 0;
-  padding: 16px;
+  padding: 0;
   background: linear-gradient(to right, #f5f7fa, #c3cfe2);
   color: #2c3e50;
   min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* App Container */
+.container {
+  max-width: 600px;
+  margin: auto;
+  padding: 16px;
+  width: 100%;
 }
 
 /* App Title */
 #appTitle {
   background: linear-gradient(to right, #6a11cb, #2575fc);
-  color: #fff;
+  color: white;
   padding: 20px;
   border-radius: 16px;
   margin-bottom: 24px;
@@ -22,22 +38,22 @@ body {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
-#appTitle h1, #appTitle h2 {
-  font-size: 26px;
-  font-weight: 600;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
-
-#appTitle span::before {
-  content: "📝";
+#appTitle h1 {
   font-size: 28px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
 }
 
-/* Input area */
+#appTitle h1 span::before {
+  content: "📝";
+  font-size: 32px;
+}
+
+/* Input Area */
 #inputDiv form {
   display: flex;
   flex-direction: column;
@@ -46,11 +62,11 @@ body {
 }
 
 #taskInput {
-  padding: 14px;
+  padding: 16px;
   font-size: 18px;
   border-radius: 10px;
   border: 1px solid #ccc;
-  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: border 0.3s ease;
 }
 
@@ -60,7 +76,7 @@ body {
 }
 
 #taskBtn {
-  padding: 14px;
+  padding: 16px;
   font-size: 18px;
   font-weight: bold;
   border: none;
@@ -83,62 +99,76 @@ ol {
 }
 
 li {
-  background: #ffffff;
+  background: #fff;
   border-radius: 14px;
   margin-bottom: 16px;
   padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   animation: fadeIn 0.4s ease;
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-li:hover {
-  transform: scale(1.01);
-  transition: transform 0.2s;
+li.editing {
+  transform: scale(1.05);
+  background: #eef4ff;
+  border: 2px solid #5e60ce;
 }
 
-/* Task content */
-li .task-row {
+/* Task Display Row (checkbox + text) */
+li .task-content {
   display: flex;
   align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
+  gap: 12px;
+  width: 100%;
 }
 
+/* Task Text */
 li span {
   flex: 1;
-  font-size: 24px; /* Increased by ~30% */
-  word-wrap: break-word;
-  line-height: 1.4;
+  font-size: 20px;
+  word-break: break-word;
+  line-height: 1.5;
 }
 
-/* Edit input field */
+/* Edit Input Field */
 input[data-role="edit"] {
   flex: 1;
-  padding: 14px;
-  font-size: 22px;
+  width: 100%;
+  padding: 16px;
+  font-size: 20px;
   border-radius: 10px;
   border: 1px solid #ccc;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  white-space: pre-wrap;
+  overflow-x: auto;
 }
 
 /* Checkbox */
 input[type="checkbox"] {
   transform: scale(1.5);
-  margin-right: 10px;
+  margin-right: 8px;
 }
 
-/* Buttons */
+/* Button Container */
+li .btn-row {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 li button {
-  padding: 10px 14px;
+  padding: 12px 16px;
   font-size: 16px;
   border-radius: 8px;
   border: none;
-  color: #fff;
+  color: white;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  flex: 1 1 45%;
+  min-width: 120px;
 }
 
 button[data-action="edit"] {
@@ -157,13 +187,21 @@ button[data-action="delete"]:hover {
   background-color: #fa5252;
 }
 
+button[data-action="Save"] {
+  background-color: #28a745 !important;
+}
+
+button[data-action="Save"]:hover {
+  background-color: #218838 !important;
+}
+
 /* Completed Section */
 #completed {
   margin-top: 32px;
 }
 
 #completed h1 {
-  font-size: 28.6px; /* 30% larger than 22px */
+  font-size: 28px;
   color: #27ae60;
   text-align: center;
   margin-bottom: 16px;
@@ -173,33 +211,31 @@ button[data-action="delete"]:hover {
   background-color: #e3f9e5;
 }
 
-/* Mobile Responsive */
+/* Responsive Fixes */
 @media (max-width: 600px) {
   html {
     font-size: 18px;
   }
 
-  #taskInput,
-  input[data-role="edit"] {
-    font-size: 20px;
+  .container {
+    padding: 12px;
   }
 
-  li .task-row {
+  li .btn-row {
     flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-  }
-
-  li span {
-    text-align: left;
-    width: 100%;
   }
 
   li button {
     width: 100%;
   }
 
-  #taskBtn {
+  li .task-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  li span,
+  input[data-role="edit"] {
     width: 100%;
   }
 }
@@ -215,3 +251,4 @@ button[data-action="delete"]:hover {
     transform: translateY(0);
   }
 }
+
