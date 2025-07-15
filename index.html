@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SmartPad v2.0</title>
+    <link rel="stylesheet" href="styles.css" /> 
+
+  </head>
+  <body>
+    <header id="appTitle">
+     <h2><span>Your personal task manager</span></h2>
+    </header>
+    <div id="inputDiv">
+      <form>
+        <input id="taskInput" type="text" placeholder="Add your task" >
+        <button id ='taskBtn' type="submit">Add</button>
+      </form>
+    </div>
+    <div id="listDiv">
+      <ol id ='taskListDom'></ol>
+    </div>
+    <div id="completed">
+      <h1>
+        Completed Tasks
+      </h1>
+      <ol id = 'completedList'></ol>
+    </div>
+
+    
+    
+    <script type="module" src='./main.js'></script>
+  </body>
+</html>
